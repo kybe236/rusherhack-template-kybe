@@ -1,0 +1,47 @@
+name: Compile
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21 for x64
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          architecture: x64
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@dbbdc275be76ac10734476cc723d82dfe7ec6eda
+
+      - name: Build with Gradle
+        run: ./gradlew -b ci.gradle package
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Plugin
+          path: build/libs
+
+      - name: Update README.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RUN_ID=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }}/check-runs | jq -r '.check_runs[] | select(.name == "Compile") | .html_url | capture("/runs/(?<number>[0-9]+)/jobs") | .number' | head -n 1)
+          BUILD_URL="https://github.com/${{ github.repository }}/actions/runs/$RUN_ID"
+          sed -i.bak "s|## \[LATEST BUILD\](.*)|## \[LATEST BUILD\]($BUILD_URL)|" README.md
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add README.md
+          git commit -m "Update README.md with latest build link"
+          git push
+          
