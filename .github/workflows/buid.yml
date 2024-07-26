@@ -1,5 +1,7 @@
 name: Compile
 
+permissions: write-all
+
 on:
   push:
     branches: [main, master]
@@ -8,10 +10,6 @@ on:
 
 jobs:
   build:
-    permissions:
-      contents: read
-      pages: write
-      
     runs-on: ubuntu-latest
 
     steps:
