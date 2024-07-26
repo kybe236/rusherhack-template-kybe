@@ -29,20 +29,23 @@ jobs:
         run: ./gradlew clean && ./gradlew build
 
       - name: Upload build artifacts
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: Plugin
-          path: build/libs
+          path: build/libs/*
 
       - name: Update README.md
+        if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           BUILD_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          sed -i.bak "s|## \[LATEST BUILD\](.*)|## \[LATEST BUILD\]($BUILD_URL)|" README.md
+          DOWNLOAD_URL="https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts"
+          sed -i.bak -E "s|\[LATEST BUILD\]\(.*\)|### \[LATEST BUILD\]\($BUILD_URL\)|" README.md
+          sed -i.bak -E "s|\[LATEST DOWNLOAD\]\(.*\)|### \[LATEST DOWNLOAD\]\($DOWNLOAD_URL\)|" README.md
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add README.md
-          git commit -m "Update README.md with latest build link"
+          git commit -m "Update README.md with latest build and download links"
           git push
-          
