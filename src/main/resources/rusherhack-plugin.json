@@ -1,0 +1,12 @@
+{
+  "Plugin-Class": "org.kybe.PluginMain",
+  "Name": "Kybes Plugin",
+  "Version": "${plugin_version}",
+  "Description": "Kybes ",
+  "Authors": [
+    "kybe236"
+  ],
+  "Minecraft-Versions": [
+    "1.21"
+  ]
+}
