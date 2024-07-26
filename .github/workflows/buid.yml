@@ -32,7 +32,7 @@ jobs:
       - name: Generate Tag Name
         id: tag_name
         run: |
-          tag=$(date +"%d:%m:%y-%H:%M")
+          tag=$(date +"%d/%m/%y-%H/%M")
           echo "TAG_NAME=$tag" >> $GITHUB_ENV
 
       - name: Create tag
