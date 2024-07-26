@@ -55,3 +55,21 @@ jobs:
           name: ${{ env.TAG_NAME }}
           body: |
             Automated release for ${{ env.TAG_NAME }}
+
+      - name: Get Release Info
+        id: release_info
+        run: |
+          release_data=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.TAG_NAME }}")
+          download_url=$(echo "$release_data" | jq -r '.assets[0].browser_download_url')
+          echo "DOWNLOAD_URL=$download_url" >> $GITHUB_ENV
+
+      - name: Update README
+        run: |
+          sed -i "s|\[DOWNLOAD\](.*)|\[DOWNLOAD\]($DOWNLOAD_URL)|" README.md
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          git add README.md
+          git commit -m "Update DOWNLOAD links in README"
+          git push
