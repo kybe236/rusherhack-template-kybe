@@ -12,6 +12,13 @@ configurations {
 	compileOnly.extendsFrom(rusherhackApi)
 }
 
+if (hasProperty('buildScan')) {
+	buildScan {
+		termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+		termsOfServiceAgree = 'yes'
+	}
+}
+
 repositories {
 	// Add repositories to retrieve artifacts from in here.
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
