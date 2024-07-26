@@ -41,8 +41,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BUILD_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          DOWNLOAD_URL: ${{ steps.upload.outputs.artifact-url }}
+          ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
         run: |
+          DOWNLOAD_URL="https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts/${{ env.ARTIFACT_ID }}"
           sed -i.bak -E "s|\[LATEST BUILD\]\(.*\)|\[LATEST BUILD\]\($BUILD_URL\)|" README.md
           sed -i.bak -E "s|\[LATEST DOWNLOAD\]\(.*\)|\[LATEST DOWNLOAD\]\($DOWNLOAD_URL\)|" README.md
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
