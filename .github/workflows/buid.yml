@@ -26,7 +26,7 @@ jobs:
         uses: gradle/actions/setup-gradle@dbbdc275be76ac10734476cc723d82dfe7ec6eda
 
       - name: Build with Gradle
-        run: ./gradlew clean && ./gradlew build
+        run: ./gradlew clean && ./gradlew build --scan
 
       - name: Upload build artifacts
         if: success()
