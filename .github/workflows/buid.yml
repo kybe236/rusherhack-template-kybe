@@ -67,7 +67,8 @@ jobs:
 
       - name: Update README
         run: |
-          sed -i "s|\[DOWNLOAD\](.*)|\[DOWNLOAD\]($DOWNLOAD_URL)|" README.md
+          sed -i -E "s|\[DOWNLOAD\]\(.*\)|\[DOWNLOAD\]($DOWNLOAD_URL)|" README.md
+          cat README.md
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
           git add README.md
