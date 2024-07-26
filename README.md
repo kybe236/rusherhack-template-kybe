@@ -1,1 +1,2 @@
-### [LATEST BUILD](https://github.com/kybe236/rusherhack-template-kybe/actions/runs/10110343888) [LATEST DOWNLOAD](s)
+### [LATEST DOWNLOAD](s)
+this is an example module
