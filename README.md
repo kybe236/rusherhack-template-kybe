@@ -1,1 +1,1 @@
-## ### [LATEST BUILD](https://github.com/kybe236/rusherhack-template-kybe/actions/runs/10110287755)
+### [LATEST BUILD](https://github.com/kybe236/rusherhack-template-kybe/actions/runs/10110287755) [LATEST DOWNLOAD]()
